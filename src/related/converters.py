@@ -58,7 +58,8 @@ def to_sequence_field(cls):
             return resolve_class(self._cls)
 
         def __call__(self, values):
-            values = values or []
+            if values is None:
+                return None
             args = [to_model(self.cls, value) for value in values]
             return TypedSequence(cls=self.cls, args=args)
 
@@ -82,7 +83,8 @@ def to_nullable_sequence_field(cls):
             return resolve_class(self._cls)
 
         def __call__(self, values):
-            values = values or []
+            if values is None:
+                return None
             args = [None if value is None else to_model(self.cls, value) for value in values]
             return TypedSequence(cls=self.cls, args=args)
 
